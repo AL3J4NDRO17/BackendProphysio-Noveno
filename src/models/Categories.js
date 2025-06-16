@@ -39,6 +39,17 @@ module.exports = (sequelize) => {
     })
   }
 
-  return Categoria
+  Categoria.afterSync(async () => {
+    const categoriasExistentes = await Categoria.findOne();
+
+    if (!categoriasExistentes) {
+      await Categoria.bulkCreate([
+        { nombre: 'Categoria Ejemplo 1' },
+        { nombre: 'Categoria Ejemplo 2' },
+      ]);
+      console.log("Datos de ejemplo de categorias insertados");
+    }
+  });
+  return Categoria;
 }
 

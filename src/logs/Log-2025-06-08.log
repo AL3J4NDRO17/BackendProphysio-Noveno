@@ -1,0 +1,4 @@
+{"level":"critical","message":"Rechazo no manejado: ReferenceError: id_servicio is not defined","timestamp":"2025-06-08 18:00:43"}
+{"level":"critical","message":"Rechazo no manejado: ReferenceError: id_servicio is not defined","timestamp":"2025-06-08 18:01:46"}
+{"level":"critical","message":"Rechazo no manejado: SequelizeDatabaseError: la sintaxis de entrada no es válida para el enum enum_citas_estado: «pendiente»","timestamp":"2025-06-08 18:02:08"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Usuario 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-08 18:06:48"}

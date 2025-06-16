@@ -74,6 +74,16 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING(255),
                 allowNull: false,
             },
+            id_perfil: {
+                type: DataTypes.INTEGER,
+                allowNull: true,  // Puede ser null si aún no se ha asignado un perfil
+                references: {
+                    model: sequelize.model.PerfilUsuario, // Tabla de perfiles_usuarios
+                    key: "id_perfil", // Clave primaria en perfiles_usuarios
+                },
+                onDelete: "SET NULL", // Si se elimina el perfil, se establece el id_perfil a null
+                onUpdate: "CASCADE", // Si se actualiza el id_perfil en perfiles_usuarios, se actualiza en usuarios
+            },
 
         },
         {

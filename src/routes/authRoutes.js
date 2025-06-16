@@ -14,7 +14,7 @@ const {checkSession} = require ('../controllers/sessionController')
 const {login ,verifyLoginCode,resendOtp } = require('../controllers/loginController')
 
 //Controlador de registro y activar cuenta
-const { register,activateAccount,getAllPreguntasSecretas } = require('../controllers/registerController')
+const { register,activateAccount } = require('../controllers/registerController')
 
 //Endpoints de la API
 router.post('/register', register);
@@ -24,6 +24,5 @@ router.post('/activate', activateAccount);
 router.post('/resendOtp', resendOtp);
 router.post('/verifyLogin', verifyLoginCode);
 router.get('/checkSession', checkSession);
-router.get('/getAllPreguntasSecretas', getAllPreguntasSecretas);
 
 module.exports = router;

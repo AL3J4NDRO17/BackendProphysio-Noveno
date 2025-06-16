@@ -13,11 +13,12 @@ const CompanyModel = require("../models/Company");
 const SocialMediaLinkModel = require("../models/SocialMediaLinks");
 const FaqModel = require("../models/Faq");
 const PolicyModel = require("../models/Policy.js");
-const CitaModel = require("../models/CIta")
+const CitaModel = require("../models/Cita.js")
 const TestimonialModel = require("../models/Testimonial")
 const ServiceModel = require("../models/Service.js")
 const PreguntaSecretaModel = require("../models/PreguntaSecreta.js")
 const LikeModel = require("../models/Like.js")
+
 // Initialize models
 const models = {
   User: UserModel(sequelize),
@@ -51,9 +52,15 @@ const syncModels = async () => {
   try {
     console.log("Iniciando la sincronización de los modelos...");
 
-    // Use the mode variable to determine the synchronization type
     const syncOptions = mode === "force" ? { force: true } : { alter: true };
-    
+
+    // Si el modo es "force", borra todas las tablas antes de sincronizar
+    if (mode === "force") {
+      console.log("🔁 Borrando todas las tablas de la base de datos...");
+      await sequelize.drop({ cascade: true });
+    }
+
+    // Sincroniza los modelos en el orden que necesites
     await sequelize.models.PerfilUsuario.sync(syncOptions);
     await sequelize.models.User.sync(syncOptions);
     await sequelize.models.Token.sync(syncOptions);

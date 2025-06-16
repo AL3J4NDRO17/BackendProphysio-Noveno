@@ -34,7 +34,8 @@ const perfilRoutes = require('./perfilRoutes')
 //RutasPublicas
 const infoPublicRoutes = require('./infoPublicRoutes');
 
-
+//Rutas de Citas
+const citaRoutes = require('./citaRoutes');
 
 //Middlewares
 const { authenticateUser } = require('../middlewares/authMiddleware'); // Corregido
@@ -50,7 +51,7 @@ router.use('/categoria', categoryRoutes, authenticateUser, authorizeRole(['admin
 router.use('/companie', companyRoutes, authenticateUser, authorizeRole(['admin']),);
 router.use('/testimonial', testimonialRoutes, authenticateUser, authorizeRole(['admin']),);
 router.use('/perfil', perfilRoutes, authenticateUser);
-
+router.use('/citas', citaRoutes, authenticateUser,authorizeRole(['admin','usuario']),);
 
 router.use('/public', infoPublicRoutes);
 
@@ -65,10 +66,10 @@ router.get('/test', (req, res) => {
 
 
 router.get("/csrf-token", (req, res) => {
-    const csrfToken = req.csrfToken();
+    // const csrfToken = req.csrfToken();
 
-    res.setHeader("X-CSRF-Token", csrfToken);
-
+    // res.setHeader("X-CSRF-Token", csrfToken);
+    const csrfToken ="1234"
     
 
     res.status(200).json({ csrfToken });

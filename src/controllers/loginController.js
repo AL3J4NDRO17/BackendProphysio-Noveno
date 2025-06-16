@@ -161,7 +161,7 @@ exports.verifyLoginCode = async (req, res) => {
     const cookieOptions = {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
       ...(user.rol === "admin"
         ? { maxAge: 15 * 60 * 1000 } // 15 minutos para admin
         : { expires: new Date("9999-12-31T23:59:59.999Z") }), // Indefinido para usuarios
@@ -171,7 +171,7 @@ exports.verifyLoginCode = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,  // Asegura que solo se use en HTTPS en producción
-      sameSite: "Strict",
+      sameSite: "None",
 
     });
     const userRole = user.rol === "admin" ? "Administrador" : "Usuario";

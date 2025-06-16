@@ -12,6 +12,12 @@ module.exports = (sequelize) => {
       id_usuario: {
         type: DataTypes.INTEGER,
         allowNull: true, // Puede ser NULL si lo crea un admin
+        references: {
+          model: "usuarios", // Asegúrate de que este nombre coincida exactamente con la tabla de usuarios
+          key: "id_usuario",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       nombre_usuario: {
         type: DataTypes.STRING(255),

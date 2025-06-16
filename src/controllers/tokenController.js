@@ -36,7 +36,7 @@ exports.refreshToken = async (req, res) => {
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: true, // Asegúrate de que se use en HTTPS en producción
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
       });
 

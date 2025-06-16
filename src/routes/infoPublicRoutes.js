@@ -7,6 +7,7 @@ const BlogController = require("../controllers/blogController");
 const categoriaController = require("../controllers/categoriesController");
 const testimonioController = require("../controllers/testimonialController");
 const resetPasswordController= require("../controllers/resetPasswordController")
+const registerController = require('../controllers/registerController')
 
 ///// ──────────────────────────────────────────────── /////
 ///               RUTAS PÚBLICAS SIN LOGIN            /////
@@ -41,6 +42,10 @@ router.get('/getBlogById/:id',BlogController.getBlogById)
 //Testimonios
 router.get("/getAllTestimonial", testimonioController.getAllTestimonios);
 
+//Solicitar Todas las preguntas secretas
+router.get("/getAllPreguntasSecretas",registerController.getAllPreguntasSecretas);
+
+
 //Solicitar reestablecimiento de contraseña
 router.post("/requestRecoverPass", resetPasswordController.solicitarCodigoRecuperacion);
 
@@ -52,6 +57,7 @@ router.post("/requestRecoverByQuestion", resetPasswordController.verificarPregun
 
 //Solicitar reestablecimiento de pregunta secreta
 router.post("/requestSecretQuestion", resetPasswordController.solicitarPreguntaSecreta);
+
 
 //Verificar codigo
 router.post("/verifyCode", resetPasswordController.verificarCodigoOTPRessetPass);

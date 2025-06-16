@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
           type: DataTypes.INTEGER,
           primaryKey: true,
           references: {
-            model: "Blogs", // nombre de tu tabla de blogs
+            model: sequelize.model.Blog, // nombre de tu tabla de blogs
             key: "id",
           },
         },

@@ -13,18 +13,28 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      id_servicio: {
+      numero_sesion: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false, // o true si puede ser opcional
+        defaultValue: 1   // opcional
       },
       fecha_hora: {
         type: DataTypes.DATE,
         allowNull: false,
       },
       estado: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.ENUM("pendiente", "confirmada", "cancelada", "completada", "postergada"),
         allowNull: false,
-        defaultValue: "agendada", // Estado inicial por defecto
+        defaultValue: "pendiente", // Estado inicial por defecto
+      },
+      foto_documento: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        // Aquí se guarda la URL del archivo subido (imagen, PDF, etc.)
+      },
+      notes: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     {
@@ -42,18 +52,14 @@ module.exports = (sequelize) => {
     });
 
     // Relación con servicios (cada cita pertenece a un servicio)
-    Cita.belongsTo(models.Service, {
-      foreignKey: "id_servicio",
-      as: "servicio",
-      onDelete: "CASCADE", // Si se elimina un servicio, las citas relacionadas también se eliminan
-    });
+    // Cita.belongsTo(models.Service, {
+    //   foreignKey: "id_servicio",
+    //   as: "servicio",
+    //   onDelete: "CASCADE", // Si se elimina un servicio, las citas relacionadas también se eliminan
+    // });
 
     // Relación con testimonios (una cita puede tener un testimonio)
-    Cita.hasOne(models.Testimonial, {
-      foreignKey: "id_cita",
-      as: "testimonio",
-      onDelete: "CASCADE",
-    });
+
   };
 
   return Cita;

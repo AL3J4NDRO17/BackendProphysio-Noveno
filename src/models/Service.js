@@ -32,13 +32,13 @@ module.exports = (sequelize) => {
     }
   );
 
-  Service.associate = (models) => {
-    Service.hasMany(models.Cita, {
-      foreignKey: "id_servicio",
-      as: "citas",
-      onDelete: "CASCADE",
-    });
-  };
+  // Service.associate = (models) => {
+  //   Service.hasMany(models.Cita, {
+  //     foreignKey: "id_servicio",
+  //     as: "citas",
+  //     onDelete: "CASCADE",
+  //   });
+  // };
 
   return Service;
 };

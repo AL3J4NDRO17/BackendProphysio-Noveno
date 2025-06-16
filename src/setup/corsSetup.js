@@ -1,5 +1,5 @@
 const { CLIENT_URL } = require("../config/index");
-
+console.log("CLIENT_URL", CLIENT_URL);
 const corsOptions = {
     origin: CLIENT_URL,
     credentials: true,

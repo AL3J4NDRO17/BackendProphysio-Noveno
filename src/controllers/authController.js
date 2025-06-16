@@ -26,8 +26,8 @@ dotenv.config();
 
 //Funcion para cerrar sesion
 exports.logout = async (req, res) => {
-  res.clearCookie("authToken", { httpOnly: true, secure: true, sameSite: "Strict" });
-  res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+  res.clearCookie("authToken", { httpOnly: true, secure: true, sameSite: "None" });
+  res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "None" });
   res.status(200).json({ message: "Cierre de sesión exitoso." });
 };
 

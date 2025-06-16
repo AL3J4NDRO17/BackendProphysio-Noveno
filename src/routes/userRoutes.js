@@ -14,8 +14,6 @@ router.get('/:id', authenticateUser, getUserById);
 // Obtener usuarios con incidentes
 router.get('/getIncidents', authenticateUser, getIncidents);
 
-
-
 // Actualizar perfil (admin o el propio usuario)
 router.put('/:id', authenticateUser, updateUser);
 

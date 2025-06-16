@@ -85,7 +85,7 @@ exports.checkSession = async (req, res) => {
         res.cookie("authToken", newAccessToken, {
           httpOnly: true,
           secure: true,
-          sameSite: "Strict",
+          sameSite: "None",
         });
 
         return res.status(200).json({
