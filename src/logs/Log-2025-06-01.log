@@ -1,5 +1,0 @@
-{"ip":"IP desconocida","level":"info","metodo":"Método desconocido","protocolo":"PROTOCOLO DESCONOCIDO","ruta":"Ruta desconocida","timestamp":"2025-06-01 15:22:56"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-01 15:23:48"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-01 17:28:04"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-01 18:00:05"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-01 19:55:32"}

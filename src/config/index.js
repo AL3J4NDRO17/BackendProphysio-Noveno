@@ -18,6 +18,7 @@ const TestimonialModel = require("../models/Testimonial")
 const ServiceModel = require("../models/Service.js")
 const PreguntaSecretaModel = require("../models/PreguntaSecreta.js")
 const LikeModel = require("../models/Like.js")
+const HorarioClinicaModel= require("../models/Horarios.js")
 
 // Initialize models
 const models = {
@@ -35,6 +36,7 @@ const models = {
   Service: ServiceModel(sequelize),
   PreguntaSecreta: PreguntaSecretaModel(sequelize),
   Like: LikeModel(sequelize),
+  HorarioClinica: HorarioClinicaModel(sequelize),
 }
 
 // Set up associations
@@ -75,6 +77,7 @@ const syncModels = async () => {
     await sequelize.models.SocialLink.sync(syncOptions);
     await sequelize.models.Faqs.sync(syncOptions);
     await sequelize.models.Policy.sync(syncOptions);
+    await sequelize.models.HorarioClinica.sync(syncOptions);
 
     console.log("✅ Base de datos sincronizada correctamente.");
   } catch (error) {

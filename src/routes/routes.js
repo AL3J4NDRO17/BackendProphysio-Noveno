@@ -41,7 +41,8 @@ const citaRoutes = require('./citaRoutes');
 const { authenticateUser } = require('../middlewares/authMiddleware'); // Corregido
 const { authorizeRole } = require('../middlewares/roleMiddleware');
 
-//Csrf
+//Rutas de WearOS
+const wearOsRoutes = require('./wearOsRoutes');
 
 //Endpoints de la API protegidos dependiendo de la ruta
 router.use('/auth', authRoutes);
@@ -52,6 +53,8 @@ router.use('/companie', companyRoutes, authenticateUser, authorizeRole(['admin']
 router.use('/testimonial', testimonialRoutes, authenticateUser, authorizeRole(['admin']),);
 router.use('/perfil', perfilRoutes, authenticateUser);
 router.use('/citas', citaRoutes, authenticateUser,authorizeRole(['admin','usuario']),);
+
+router.use('/wearOs',wearOsRoutes);
 
 router.use('/public', infoPublicRoutes);
 

@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 
-module. exports = (sequelize) => {
+module.exports = (sequelize) => {
     const Company = sequelize.define(
         "Company",
         {
@@ -22,12 +22,20 @@ module. exports = (sequelize) => {
             address: {
                 type: DataTypes.STRING,
             },
-            logo_url: {  // ✅ Logo actual
+            latitude: {  // ✅ Nueva propiedad
+                type: DataTypes.FLOAT,
+                allowNull: true,
+            },
+            longitude: {  // ✅ Nueva propiedad
+                type: DataTypes.FLOAT,
+                allowNull: true,
+            },
+            logo_url: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            logos_history: {  // ✅ Historial de logos (array de URLs)
-                type: DataTypes.ARRAY(DataTypes.STRING), // Almacena un array de strings (URLs)
+            logos_history: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
                 defaultValue: [],
             },
             description: {
@@ -47,13 +55,12 @@ module. exports = (sequelize) => {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,
             },
-        },{
+        },
+        {
             tableName: "company",
-           
-        });
+        }
+    );
 
-
-    // Definir relaciones correctamente
     Company.associate = (models) => {
         Company.hasMany(models.SocialLink, {
             foreignKey: "company_id",

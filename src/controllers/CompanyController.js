@@ -70,20 +70,6 @@ exports.createCompany = async (req, res) => {
 // ✅ Obtener todas las empresas
 exports.getCompanies = async (req, res) => {
     try {
-        console.log(await Company.findAll({
-            include: [
-               
-                { model: Faqs, as: "faqs" }, // Agregar FAQs en la respuesta
-            ],
-        })
-        );
-        console.log(await Company.findAll({
-            include: [
-                { model: SocialLink, as: "socialLinks" },
-                { model: Faqs, as: "faqs" }, // Agregar FAQs en la respuesta
-            ],
-        })
-        );
         const companies = await Company.findAll({
             include: [
                 { model: SocialLink, as: "socialLinks" },
@@ -92,7 +78,7 @@ exports.getCompanies = async (req, res) => {
         });
         res.status(200).json(companies);
     } catch (error) {
-        console.error("Error al obtener empresasSSSSSS:", error);
+        console.error("Error al obtener empresas:", error);
         res.status(500).json({ message: "Error al obtener empresas" });
     }
 };

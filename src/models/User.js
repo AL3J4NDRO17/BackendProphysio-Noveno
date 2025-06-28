@@ -62,6 +62,11 @@ module.exports = (sequelize) => {
                     return value ? new Date(value).toISOString() : null; // Asegura que se guarde en UTC
                 },
             },
+            folio: {
+                type: DataTypes.STRING(10),
+                allowNull: true,
+                unique: true,
+            },
             id_pregunta: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -84,6 +89,7 @@ module.exports = (sequelize) => {
                 onDelete: "SET NULL", // Si se elimina el perfil, se establece el id_perfil a null
                 onUpdate: "CASCADE", // Si se actualiza el id_perfil en perfiles_usuarios, se actualiza en usuarios
             },
+
 
         },
         {
@@ -110,6 +116,18 @@ module.exports = (sequelize) => {
         });
 
     };
+    User.beforeCreate(async (user, options) => {
+        // Intenta generar un folio único
+        let folioGenerado;
+        let existente;
+
+        do {
+            folioGenerado = generarFolio();
+            existente = await User.findOne({ where: { folio: folioGenerado } });
+        } while (existente);
+
+        user.folio = folioGenerado;
+    });
     User.afterCreate(async (user, options) => {
         try {
             const perfil = await sequelize.models.PerfilUsuario.create({
