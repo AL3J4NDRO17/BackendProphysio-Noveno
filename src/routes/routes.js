@@ -44,6 +44,9 @@ const { authorizeRole } = require('../middlewares/roleMiddleware');
 //Rutas de WearOS
 const wearOsRoutes = require('./wearOsRoutes');
 
+//Rutas de Horarios
+const horariosRoutes = require('./horariosRoutes');
+
 //Endpoints de la API protegidos dependiendo de la ruta
 router.use('/auth', authRoutes);
 router.use('/users', authenticateUser, userRoutes);
@@ -53,6 +56,7 @@ router.use('/companie', companyRoutes, authenticateUser, authorizeRole(['admin']
 router.use('/testimonial', testimonialRoutes, authenticateUser, authorizeRole(['admin']),);
 router.use('/perfil', perfilRoutes, authenticateUser);
 router.use('/citas', citaRoutes, authenticateUser,authorizeRole(['admin','usuario']),);
+router.use('/horarios', horariosRoutes);
 
 router.use('/wearOs',wearOsRoutes);
 

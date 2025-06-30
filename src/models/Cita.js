@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize")
 
 module.exports = (sequelize) => {
   const Cita = sequelize.define(
@@ -16,14 +16,14 @@ module.exports = (sequelize) => {
       numero_sesion: {
         type: DataTypes.INTEGER,
         allowNull: false, // o true si puede ser opcional
-        defaultValue: 1   // opcional
+        defaultValue: 1, // opcional
       },
       fecha_hora: {
         type: DataTypes.DATE,
         allowNull: false,
       },
       estado: {
-        type: DataTypes.ENUM("pendiente", "confirmada", "cancelada", "completada", "postergada"),
+        type: DataTypes.ENUM("pendiente", "confirmada", "cancelada", "completada", "postergada", "inasistencia"),
         allowNull: false,
         defaultValue: "pendiente", // Estado inicial por defecto
       },
@@ -36,12 +36,27 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      // Campo 'duracion' mantenido por las razones explicadas
+      duracion: {
+        type: DataTypes.INTEGER,
+        allowNull: true, // Puede ser nulo si no se especifica, o false si es obligatorio
+        defaultValue: 60, // Valor por defecto en minutos
+      },
+      // Campo 'nombre_paciente' ELIMINADO
+      motivo_cancelacion: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      motivo_postergacion: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       tableName: "citas",
       timestamps: false,
-    }
-  );
+    },
+  )
 
   Cita.associate = (models) => {
     // Relación con usuarios (cada cita pertenece a un usuario)
@@ -49,7 +64,7 @@ module.exports = (sequelize) => {
       foreignKey: "id_usuario",
       as: "usuario",
       onDelete: "CASCADE", // Si el usuario se elimina, sus citas también
-    });
+    })
 
     // Relación con servicios (cada cita pertenece a un servicio)
     // Cita.belongsTo(models.Service, {
@@ -59,8 +74,7 @@ module.exports = (sequelize) => {
     // });
 
     // Relación con testimonios (una cita puede tener un testimonio)
+  }
 
-  };
-
-  return Cita;
-};
+  return Cita
+}

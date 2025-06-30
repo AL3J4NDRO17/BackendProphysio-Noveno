@@ -1,3 +1,0 @@
-{"ip":"127.0.0.1","level":"info","mensaje":"Usuario jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-14 21:03:56"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Usuario jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-14 21:14:09"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-14 22:48:39"}

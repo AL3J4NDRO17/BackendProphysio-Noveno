@@ -1,0 +1,13 @@
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 15:34:41"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 16:23:02"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (1) para el usuario 20221017@uthh.edu.mx.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-06-29 16:44:14"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 16:45:00"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 17:11:46"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 18:12:57"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 18:31:36"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 19:19:01"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 19:49:12"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 20:25:38"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (1) para el usuario 20221017@uthh.edu.mx.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-06-29 21:50:04"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 21:50:18"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-29 22:26:26"}

@@ -12,6 +12,14 @@ module.exports = (sequelize) => {
       dia: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isIn: [["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]],
+        },
+      },
+      duracion_sesion: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 60, // puedes cambiar el valor por defecto si necesitas
       },
       hora_inicio: {
         type: DataTypes.TIME,
@@ -35,29 +43,31 @@ module.exports = (sequelize) => {
     }
   );
 
-  HorarioClinica.afterSync(async () => {
+  // Hook personalizado para insertar horarios si no existen
+  const insertarHorariosDefault = async () => {
     const yaExisten = await HorarioClinica.findOne();
     if (!yaExisten) {
-      await HorarioClinica.bulkCreate([
-        // Lunes
-        { dia: "Lunes", hora_inicio: "08:00", hora_fin: "13:00" },
-        { dia: "Lunes", hora_inicio: "14:00", hora_fin: "17:00" },
-        // Martes
-        { dia: "Martes", hora_inicio: "08:00", hora_fin: "13:00" },
-        { dia: "Martes", hora_inicio: "14:00", hora_fin: "17:00" },
-        // Miércoles
-        { dia: "Miércoles", hora_inicio: "08:00", hora_fin: "13:00" },
-        { dia: "Miércoles", hora_inicio: "14:00", hora_fin: "17:00" },
-        // Jueves
-        { dia: "Jueves", hora_inicio: "08:00", hora_fin: "13:00" },
-        { dia: "Jueves", hora_inicio: "14:00", hora_fin: "17:00" },
-        // Viernes
-        { dia: "Viernes", hora_inicio: "08:00", hora_fin: "13:00" },
-        { dia: "Viernes", hora_inicio: "14:00", hora_fin: "17:00" },
-      ]);
+      const horarios = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+      const bloques = [
+        { hora_inicio: "08:00", hora_fin: "13:00" },
+        { hora_inicio: "14:00", hora_fin: "17:00" },
+      ];
+
+      const datos = horarios.flatMap((dia) =>
+        bloques.map((bloque) => ({
+          dia,
+          duracion_sesion: 60, // o el valor que manejes
+          ...bloque,
+        }))
+      );
+
+      await HorarioClinica.bulkCreate(datos);
       console.log("Horarios de clínica insertados con bloques.");
     }
-  });
+  };
+
+  // Ejecutar después del sync en otro archivo, por ejemplo:
+  HorarioClinica.insertarHorariosDefault = insertarHorariosDefault;
 
   return HorarioClinica;
 };

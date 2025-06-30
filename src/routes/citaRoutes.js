@@ -1,13 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const {
-createCita,
-getAllCitas,
-deleteCita,
-updateCitaEstado,
-getCitaById,
-confirmarCita,
-getPerfilPorCita
+createCita,adminCrearCita,confirmarCita,deleteCita,getAllCitas,getCitaById,getPerfilPorCita,updateCita
 } = require("../controllers/CitaController")
 
 const { upload } = require("../utils/upload/fileUpload");
@@ -22,10 +16,9 @@ router.get("/getPerfilPorCita/:id", getPerfilPorCita)
 // POST crear nueva cita
 router.post("/createCita", upload.single("file"), createCita)
 
-router.get("/getCitaById/:id", getCitaById) 
+router.get("/getCitaById/:id", getCitaById)
 
-// PUT actualizar estado de cita
-router.put("/updateCitaEstado/:id", updateCitaEstado)
+router.put("/updateCitaEstado/:id", updateCita)
 
 router.post("/confirmarCitaToken", confirmarCita) // Actualizar cita (puede ser crear o actualizar)
 

@@ -163,7 +163,7 @@ exports.verifyLoginCode = async (req, res) => {
       secure: true,
       sameSite: "None",
       ...(user.rol === "admin"
-        ? { maxAge: 15 * 60 * 1000 } // 15 minutos para admin
+        ? { maxAge: 30 * 60 * 1000 } // 30 minutos para admin
         : { expires: new Date("9999-12-31T23:59:59.999Z") }), // Indefinido para usuarios
     };
     res.cookie("authToken", authToken, cookieOptions);

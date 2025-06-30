@@ -1,8 +1,33 @@
 
 // Importar modelo de usuario
-const { User } = require("../config/index")
+const { User, PerfilUsuario } = require("../config/index")
+const { Op } = require("sequelize");
 
 // Obtener todos los usuarios
+exports.searchUsers = async (req, res) => {
+  const searchTerm = req.query.q;
+
+  if (!searchTerm || searchTerm.trim() === "") {
+    return res.status(400).json({ error: "Debes proporcionar un término de búsqueda." });
+  }
+
+  try {
+    const usuarios = await User.findAll({
+      where: {
+        nombre: {
+          [Op.iLike]: `%${searchTerm}%`, // Busca en cualquier parte del nombre (insensible a mayúsculas)
+        },
+      },
+      attributes: ["id_usuario", "nombre", "email", "rol"], // Ajusta según lo que necesites mostrar
+      limit: 10, // Opcional: limita resultados
+    });
+
+    res.json(usuarios);
+  } catch (error) {
+    console.error("Error al buscar usuarios:", error);
+    res.status(500).json({ error: "Error al buscar usuarios" });
+  }
+};
 exports.getAllUsers = async (req, res, next) => {
   try {
 
@@ -96,3 +121,28 @@ exports.getIncidents = async (req, res, next) => {
   }
 };
 
+exports.getUserWithProfile = async (req, res) => {
+  const { id } = req.params; // ID del usuario
+
+  try {
+    const user = await User.findByPk(id, {
+      attributes: ["id_usuario", "nombre", "email", "rol", "activo", "folio"],
+      include: {
+        model: PerfilUsuario,
+        as: "perfil",
+        attributes: {
+          exclude: ["createdAt", "updatedAt"], // Opcional
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+    res.status(500).json({ message: "Error en el servidor." });
+  }
+};

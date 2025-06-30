@@ -6,16 +6,6 @@
     "auditLog": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\.ca4c144a9edeaa6e6151936fd04d9396f417aae9-audit.json",
     "files": [
         {
-            "date": 1749852380811,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-13.log",
-            "hash": "7f17b58cb0df5a0959be7f1d7ec94cf8b974cdda1be444098431142fb4a2c0d4"
-        },
-        {
-            "date": 1749956447007,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-14.log",
-            "hash": "0e615ec90ea6a2cc3451dfe5ff4c5b7864374b7e6030eb0e911b3bad87872384"
-        },
-        {
             "date": 1750020546866,
             "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-15.log",
             "hash": "6958fda651d777ef7739b4bb6baa3c390fb3a0afa9d97a25506bc2fbb9f20796"
@@ -44,6 +34,16 @@
             "date": 1751060131597,
             "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-27.log",
             "hash": "60b3cca59d8bdcbf7f12ca56456f56b50ca5a403deccd696ae2909ce99f247d3"
+        },
+        {
+            "date": 1751138266787,
+            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-28.log",
+            "hash": "ed0649409082379fad9024578730d88db1959e9a3096e70caf66ffac26e5d0d6"
+        },
+        {
+            "date": 1751228640045,
+            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-06-29.log",
+            "hash": "ad4366c97503255b297748d45e1a6bbab62781814c58dfbbcafd8b760a88f1b0"
         }
     ],
     "hashType": "sha256"
