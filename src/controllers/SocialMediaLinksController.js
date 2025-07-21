@@ -1,69 +1,59 @@
-const { SocialMediaLink, Company } = require("../config/index");
+const { SocialLink, Company } = require("../config/index") // Asegúrate de que SocialLink esté exportado desde tu config/index.js
 
-// ✅ Agregar una red social a una empresa
-exports.addSocialMediaLink = async (req, res) => {
-    try {
-        const { company_id, platform, url } = req.body;
+exports.getSocialLinksByCompany = async (req, res) => {
+  try {
+    const { id } = req.params
 
-        // Verificar si la empresa existe
-        const company = await Company.findByPk(company_id);
-        if (!company) {
-            return res.status(404).json({ message: "Empresa no encontrada" });
-        }
+    const socialLinks = await SocialLink.findAll({ where: { company_id: id } })
+    res.status(200).json(socialLinks)
+  } catch (error) {
+    console.error("Error al obtener enlaces sociales por compañía:", error)
+    res.status(500).json({ message: "Error interno del servidor al obtener enlaces sociales." })
+  }
+}
 
-        const newLink = await SocialMediaLink.create({ company_id, platform, url });
-        res.status(201).json(newLink);
-    } catch (error) {
-        console.error("Error al agregar red social:", error);
-        res.status(500).json({ message: "Error al agregar la red social" });
+exports.createSocialLink = async (req, res) => {
+  try {
+    const { company_id, platform, url } = req.body
+    if (!company_id || !platform || !url) {
+      return res.status(400).json({ message: "company_id, platform y url son requeridos." })
     }
-};
+    const newLink = await SocialLink.create({ company_id, platform, url })
+    res.status(201).json(newLink)
+  } catch (error) {
+    console.error("Error al crear enlace social:", error)
+    res.status(500).json({ message: "Error interno del servidor al crear enlace social." })
+  }
+}
 
-// ✅ Obtener todas las redes sociales de una empresa
-exports.getSocialMediaLinksByCompany = async (req, res) => {
-    try {
-        const { company_id } = req.params;
-        const socialLinks = await SocialMediaLink.findAll({ where: { company_id } });
-        res.status(200).json(socialLinks);
-    } catch (error) {
-        console.error("Error al obtener redes sociales:", error);
-        res.status(500).json({ message: "Error al obtener redes sociales" });
+exports.updateSocialLink = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { platform, url } = req.body
+    console.log("Datos recibidos para actualizar enlace social:", { id, platform, url })
+    const socialLink = await SocialLink.findOne(platform)
+    if (!socialLink) {
+      return res.status(404).json({ message: "Enlace social no encontrado." })
     }
-};
+    await socialLink.update({ platform, url })
+    res.status(200).json(socialLink)
+  } catch (error) {
+    console.error("Error al actualizar enlace social:", error)
+    res.status(500).json({ message: "Error interno del servidor al actualizar enlace social." })
+  }
+}
 
-// ✅ Actualizar un enlace de red social
-exports.updateSocialMediaLink = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { platform, url } = req.body;
-        const socialLink = await SocialMediaLink.findByPk(id);
-
-        if (!socialLink) {
-            return res.status(404).json({ message: "Red social no encontrada" });
-        }
-
-        await socialLink.update({ platform, url });
-        res.status(200).json(socialLink);
-    } catch (error) {
-        console.error("Error al actualizar la red social:", error);
-        res.status(500).json({ message: "Error al actualizar la red social" });
+exports.deleteSocialLink = async (req, res) => {
+  try {
+    const { id } = req.params
+    const socialLink = await SocialLink.findByPk(id)
+    if (!socialLink) {
+      return res.status(404).json({ message: "Enlace social no encontrado." })
     }
-};
-
-// ✅ Eliminar una red social
-exports.deleteSocialMediaLink = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const socialLink = await SocialMediaLink.findByPk(id);
-
-        if (!socialLink) {
-            return res.status(404).json({ message: "Red social no encontrada" });
-        }
-
-        await socialLink.destroy();
-        res.status(200).json({ message: "Red social eliminada con éxito" });
-    } catch (error) {
-        console.error("Error al eliminar la red social:", error);
-        res.status(500).json({ message: "Error al eliminar la red social" });
-    }
-};
+    await socialLink.destroy()
+    res.status(200).json({ message: "Enlace social eliminado correctamente." })
+  } catch (error) {
+    console.error("Error al eliminar enlace social:", error)
+    res.status(500).json({ message: "Error interno del servidor al eliminar enlace social." })
+  }
+}

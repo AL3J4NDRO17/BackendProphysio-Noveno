@@ -9,6 +9,6 @@ const {getClinicHours,updateClinicHours} = require ('../controllers/clinicHoursC
 
 //Endpoints de la API
 router.get('/getAllHorarios',getClinicHours);
-router.put('/updateHorario/:id',updateClinicHours);
+router.put('/updateHorarios',updateClinicHours);
 
 module.exports = router;

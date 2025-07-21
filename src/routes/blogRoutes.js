@@ -17,12 +17,28 @@ const { upload, cloudinary } = require('../utils/upload/fileUpload');  // Asegú
 */
 const { createBlog, getBlogs, updateBlog, deleteBlog, updateBlogStatus, getBlogById } = require('../controllers/blogController');
 
-
-
 //Endpoints de la API
-router.post('/create', upload.array('images', 5), createBlog); // ✅ Solo admin puede crear
+
 router.get("/getBlogById/:id", getBlogById)
-router.put('/update/:id', updateBlog); 
+
+
+router.post(
+    "/create",
+    upload.fields([
+        { name: "bannerImage", maxCount: 1 },
+        { name: "attachedImages", maxCount: 10 }, // Hasta 10 adjuntas
+    ]),
+    createBlog
+);
+
+router.put(
+    '/update/:id',
+    upload.fields([
+        { name: "bannerImage", maxCount: 1 },
+        { name: "attachedImages", maxCount: 10 },
+    ]),
+    updateBlog
+)
 router.delete('/delete/:id', deleteBlog);
 router.put("/updateStatus/:id", updateBlogStatus);
 router.get('/list', getBlogs);
@@ -33,20 +49,18 @@ router.post("/upload-image", upload.single("file"), async (req, res) => {
     try {
         // Subir a Cloudinary y convertir la imagen a WebP
         const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: "blog-images",  // Puedes personalizar la carpeta
+            folder: "blog-images", // Puedes personalizar la carpeta
             transformation: [
-                { width: 800, height: 800, crop: "limit" },  // Ajusta el tamaño
-                { quality: "auto" },  // Optimizamos la calidad
-                { fetch_format: "webp" }  // Convertimos a WebP
-            ]
-        });
-
+                { width: 800, height: 800, crop: "limit" }, // Ajusta el tamaño
+                { quality: "auto" }, // Optimizamos la calidad
+                { fetch_format: "webp" }, // Convertimos a WebP
+            ],
+        })
         // Responder con la URL de la imagen cargada
-        res.json({ secure_url: result.secure_url });
+        res.json({ secure_url: result.secure_url })
     } catch (error) {
-        console.error("Error uploading image:", error);
-        res.status(500).json({ message: "Error uploading image" });
+        console.error("Error uploading image:", error)
+        res.status(500).json({ message: "Error uploading image" })
     }
-});
-
+})
 module.exports = router;

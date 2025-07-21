@@ -19,7 +19,14 @@ const storage = new CloudinaryStorage({
   },
 });
 
+const getPublicIdFromUrl = (url) => {
+  const parts = url.split("/");
+  const filename = parts[parts.length - 1].split(".")[0]; // sin extensión
+  const folder = parts[parts.length - 2];
+  return `${folder}/${filename}`; // ejemplo: blog-images/nombreimagen
+};
+
 const upload = multer({ storage });
 
 
-module.exports = { cloudinary, upload };
+module.exports = { cloudinary, upload, getPublicIdFromUrl };

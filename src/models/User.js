@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
-
+// Asegúrate de que el modelo Token esté correctamente importado
+const {generarFolio}  = require("../services/authService"); // Asegúrate de que esta función esté definida en utils
 module.exports = (sequelize) => {
     const User = sequelize.define(
         "User",
@@ -63,7 +64,7 @@ module.exports = (sequelize) => {
                 },
             },
             folio: {
-                type: DataTypes.STRING(10),
+                type: DataTypes.STRING(16),
                 allowNull: true,
                 unique: true,
             },

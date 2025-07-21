@@ -1,4 +1,4 @@
-const { Cita, User, PerfilUsuario } = require("../config/index")
+const { Cita, User, PerfilUsuario, RadiografiaUsuario } = require("../config/index")
 const nodemailer = require("nodemailer")
 const jwt = require("jsonwebtoken")
 const cloudinary = require("cloudinary").v2
@@ -9,11 +9,15 @@ dotenv.config()
 // Crear una cita (usuario)
 exports.createCita = async (req, res) => {
   try {
-    // 'nombre_paciente' ELIMINADO de la desestructuración, se obtendrá de la relación User
-    const { id_usuario, fecha_hora, notes, duracion, numero_sesion } = req.body
-    const usuario = await User.findByPk(id_usuario)
+    console.log("req.files-------------------------------------")
+    console.log(req.files)
+    const { id_usuario, fecha_hora, notes, duracion, numero_sesion, foto_documento_descripcion } = req.body // Añadir foto_documento_descripcion
+    const usuario = await User.findByPk(id_usuario, {
+      include: [{ model: PerfilUsuario, as: "perfil" }], // Incluir el perfil para obtener id_perfil
+    })
 
     if (!usuario) return res.status(404).json({ message: "Usuario no encontrado" })
+    if (!usuario.perfil) return res.status(404).json({ message: "Perfil de usuario no encontrado" })
 
     // Verificar si ya tiene una cita agendada o pendiente
     const citaExistente = await Cita.findOne({
@@ -22,49 +26,45 @@ exports.createCita = async (req, res) => {
         estado: ["confirmada", "pendiente"],
       },
     })
-
     if (citaExistente) {
       return res.status(400).json({
         message: "Ya tienes una cita activa. No puedes agendar otra.",
       })
     }
 
-    const token_confirmacion = jwt.sign(
-      { id_cita: null }, // Se actualizará después de crear la cita
-      process.env.JWT_SECRET || "secreto",
-      { expiresIn: "1d" },
-    )
 
-    if (req.file) {
-      const urlArchivo = await subirArchivoCloudinary(req.file.buffer)
-      return crearCitaEnBD(urlArchivo)
-    } else {
-      return crearCitaEnBD(null)
+
+    // Crear la cita en la base de datos (sin foto_documento en Cita)
+    const cita = await Cita.create({
+      id_usuario,
+      fecha_hora,
+      notes,
+      estado: "pendiente",
+      token_confirmacion: "", // temporal
+      duracion, // Guardar la duración de la sesión
+      numero_sesion, // Guardar el número de sesión
+    })
+    let fotoDocumentoUrl = null
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const fotoDocumentoUrl = file.path // Multer ya te da la URL de Cloudinary
+        // Crear una entrada en el modelo RadiografiaUsuario para cada archivo
+        await RadiografiaUsuario.create({
+          id_perfil: usuario.perfil.id_perfil, // Usar el id_perfil del usuario
+          id_cita: cita.id_cita, // Asociar la radiografía a la cita recién creada
+          url: fotoDocumentoUrl,
+          descripcion: foto_documento_descripcion || null, // Usar la descripción del body
+        })
+        console.log("Radiografía guardada en RadiografiaUsuario:", fotoDocumentoUrl)
+      }
     }
+    const tokenJWT = jwt.sign({ id_cita: cita.id_cita }, process.env.JWT_SECRET || "secreto", { expiresIn: "1d" })
+    cita.token_confirmacion = tokenJWT
+    await cita.save()
 
-    async function crearCitaEnBD(foto_documento) {
-      const cita = await Cita.create({
-        id_usuario,
-        fecha_hora,
-        notes,
-        foto_documento,
-        estado: "pendiente",
-        token_confirmacion: "", // temporal
-        duracion, // Guardar la duración de la sesión
-        numero_sesion, // Guardar el número de sesión
-        // 'nombre_paciente' ELIMINADO de aquí
-      })
-
-      const tokenJWT = jwt.sign({ id_cita: cita.id_cita }, process.env.JWT_SECRET || "secreto", { expiresIn: "1d" })
-
-      cita.token_confirmacion = tokenJWT
-      await cita.save()
-
-      await enviarCorreoConfirmacion(usuario.email, cita.id_cita, tokenJWT)
-
-      console.log("Cita creada:", cita)
-      return res.status(201).json({ message: "Cita pendiente, confirma en el correo." })
-    }
+    await enviarCorreoConfirmacion(usuario.email, cita.id_cita, tokenJWT)
+    console.log("Cita creada:", cita)
+    return res.status(201).json({ message: "Cita pendiente, confirma en el correo." })
   } catch (error) {
     console.error("Error al crear cita:", error)
     res.status(500).json({ message: "Error al crear cita" })
@@ -132,11 +132,29 @@ exports.getAllCitas = async (req, res) => {
         "estado",
         "duracion", // Mantenido
         "numero_sesion",
-        "foto_documento",
         "motivo_cancelacion",
         "motivo_postergacion",
       ],
-      include: [{ model: User, as: "usuario", attributes: ["id_usuario", "nombre", "email"] }], // Asegura que el usuario esté incluido
+      include: [
+        {
+          model: User,
+          as: "usuario",
+          attributes: ["id_usuario", "nombre", "email"],
+          include: [
+            {
+              model: PerfilUsuario,
+              as: "perfil",
+              include: [
+                {
+                  model: RadiografiaUsuario,
+                  as: "radiografias", // Asegúrate de que 'radiografias' sea el alias correcto de tu asociación
+                  attributes: ["id_radiografia", "url", "descripcion", "createdAt"], // Incluir atributos relevantes
+                },
+              ],
+            },
+          ],
+        },
+      ],
     })
     console.log("Citas", citas)
     res.status(200).json(citas)
@@ -188,8 +206,8 @@ exports.updateCita = async (req, res) => {
 // Eliminar cita (admin)
 exports.deleteCita = async (req, res) => {
   try {
-    const { id_cita } = req.params
-    const cita = await Cita.findByPk(id_cita)
+    const { id } = req.params
+    const cita = await Cita.findByPk(id)
 
     if (!cita) return res.status(404).json({ message: "Cita no encontrada" })
 
@@ -208,17 +226,34 @@ exports.getCitaById = async (req, res) => {
     const { id_cita } = req.params
     const cita = await Cita.findByPk(id_cita, {
       include: [
-        { model: User, as: "usuario", attributes: ["id_usuario", "nombre", "email"] }, // Asegura que el usuario esté incluido
+        {
+          model: User,
+          as: "usuario",
+          attributes: ["id_usuario", "nombre", "email"],
+          include: [
+            {
+              model: PerfilUsuario,
+              as: "perfil",
+              include: [
+                {
+                  model: RadiografiaUsuario,
+                  as: "radiografias", // Asegúrate de que 'radiografias' sea el alias correcto de tu asociación
+                  attributes: ["id_radiografia", "url", "descripcion", "createdAt"],
+                },
+              ],
+            },
+          ],
+        },
       ],
     })
     if (!cita) return res.status(404).json({ message: "Cita no encontrada" })
-
     res.status(200).json(cita)
   } catch (error) {
     console.error("Error al obtener la cita:", error)
     res.status(500).json({ message: "Error al obtener la cita" })
   }
 }
+
 
 // adminCrearCita
 exports.adminCrearCita = async (req, res) => {
@@ -314,5 +349,92 @@ exports.getPerfilPorCita = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener perfil desde cita:", error)
     res.status(500).json({ message: "Error interno del servidor" })
+  }
+}
+exports.marcarAsistida = async (req, res) => {
+  try {
+    const { id } = req.params
+    const cita = await Cita.findByPk(id)
+
+    if (!cita) {
+      return res.status(404).json({ message: "Cita no encontrada." })
+    }
+
+    cita.estado = "completada"
+    await cita.save()
+
+    res.status(200).json(cita)
+  } catch (error) {
+    console.error("Error al marcar cita como asistida:", error)
+    res.status(500).json({ message: "Error interno del servidor al marcar cita como asistida." })
+  }
+}
+
+// Asegurarse de que la definición de `marcarInasistencia` al final del archivo sea la siguiente:
+
+// Nueva función para marcar cita como inasistencia
+exports.marcarInasistencia = async (req, res) => {
+  try {
+    const { id } = req.params
+    const cita = await Cita.findByPk(id)
+
+    if (!cita) {
+      return res.status(404).json({ message: "Cita no encontrada." })
+    }
+
+    cita.estado = "inasistencia"
+    await cita.save()
+
+    res.status(200).json(cita)
+  } catch (error) {
+    console.error("Error al marcar cita como inasistencia:", error)
+    res.status(500).json({ message: "Error interno del servidor al marcar cita como inasistencia." })
+  }
+}
+exports.cancelarCita = async (req, res) => {
+  try {
+    console.log(req.body)
+    console.log(req.params)
+    const { id } = req.params
+    const { motivo_cancelacion } = req.body
+
+    const cita = await Cita.findByPk(id)
+
+    if (!cita) {
+      return res.status(404).json({ message: "Cita no encontrada." })
+    }
+
+    cita.estado = "cancelada"
+    cita.motivo_cancelacion = motivo_cancelacion || null // Guardar el motivo
+    await cita.save()
+
+    res.status(200).json(cita)
+  } catch (error) {
+    console.error("Error al cancelar cita:", error)
+    res.status(500).json({ message: "Error interno del servidor al cancelar cita." })
+  }
+}
+
+// Nueva función para postergar cita
+exports.postergarCita = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { fecha_hora, motivo_postergacion } = req.body // Espera la nueva fecha y el motivo
+
+    const cita = await Cita.findByPk(id)
+
+    if (!cita) {
+      return res.status(404).json({ message: "Cita no encontrada." })
+    }
+
+    cita.estado = "postergada"
+    cita.fecha_hora = fecha_hora // Actualiza la fecha de la cita
+    cita.motivo_postergacion = motivo_postergacion || null // Guardar el motivo
+    await cita.save()
+
+    res.status(200).json(cita)
+  } catch (error) {
+    console.error("Error al postergar cita:", error)
+    res.status(500).json({ message: "Error interno del servidor al postergar cita." })
   }
 }

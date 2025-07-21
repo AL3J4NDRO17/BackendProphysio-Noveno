@@ -267,28 +267,121 @@ exports.getCompanyLogos = async (req, res) => {
 };
 exports.setCurrentLogo = async (req, res) => {
     try {
-        const { companyId, logoUrl } = req.body;
+        console.log(req.body)
+        const { companyId, logo } = req.body;
 
         const company = await Company.findByPk(companyId);
         if (!company) {
             return res.status(404).json({ message: "Empresa no encontrada" });
         }
 
-        if (!company.logos_history.includes(logoUrl)) {
+        if (!company.logos_history.includes(logo)) {
             return res.status(400).json({ message: "El logo no pertenece al historial de esta empresa" });
         }
 
         // Mover el logo actual al historial y establecer el nuevo
-        const updatedLogosHistory = [company.logo_url, ...company.logos_history.filter(url => url !== logoUrl)];
+        const updatedLogosHistory = [company.logo_url, ...company.logos_history.filter(url => url !== logo)];
 
         await company.update({
-            logo_url: logoUrl,
+            logo_url: logo,
             logos_history: updatedLogosHistory.slice(0, 5),
         });
 
-        res.json({ message: "Logo actualizado correctamente", logo_url: logoUrl });
+        res.json({ message: "Logo actualizado correctamente", logo_url: logo });
     } catch (error) {
         console.error("Error al establecer el logo actual:", error);
         res.status(500).json({ message: "Error al actualizar el logo" });
     }
 };
+exports.deleteLogo = async (req, res) => {
+    try {
+        const { companyId, logoUrl } = req.body;
+
+        if (!companyId || !logoUrl) {
+            return res.status(400).json({ message: "Faltan datos: companyId o logoUrl" });
+        }
+
+        // Buscar empresa
+        const company = await Company.findByPk(companyId);
+        if (!company) {
+            return res.status(404).json({ message: "Empresa no encontrada" });
+        }
+
+        // Extraer public_id desde la URL
+        const urlParts = logoUrl.split("/");
+        const fileNameWithExtension = urlParts[urlParts.length - 1]; // ej: abc123.jpg
+        const folderName = urlParts[urlParts.length - 2]; // ej: company-logos
+        const publicId = `${folderName}/${fileNameWithExtension.split(".")[0]}`; // company-logos/abc123
+
+        // Eliminar de Cloudinary
+        await cloudinary.uploader.destroy(publicId);
+
+        // Eliminar de logos_history
+        const updatedHistory = company.logos_history.filter(url => url !== logoUrl);
+
+        // Si el logo eliminado es el actual, limpiar
+        const isCurrent = company.logo_url === logoUrl;
+        await company.update({
+            logo_url: isCurrent ? null : company.logo_url,
+            logos_history: updatedHistory,
+        });
+
+        res.json({
+            message: "Logo eliminado correctamente",
+            current_logo: isCurrent ? null : company.logo_url,
+            logos_history: updatedHistory,
+        });
+    } catch (error) {
+        console.error("Error al eliminar el logo:", error);
+        res.status(500).json({ message: "Error interno al eliminar el logo" });
+    }
+};
+exports.updateLogo = async (req, res) => {
+    try {
+        console.log("🟡 Intentando actualizar logo...");
+
+        if (!req.file) {
+            return res.status(400).json({ message: "No se ha subido ningún archivo" });
+        }
+
+        const { company_id } = req.body;
+        if (!company_id) {
+            return res.status(400).json({ message: "ID de empresa requerido" });
+        }
+
+        const company = await Company.findByPk(company_id);
+        if (!company) {
+            return res.status(404).json({ message: "Empresa no encontrada" });
+        }
+
+        // 🧹 Eliminar el logo actual de Cloudinary si existe
+        if (company.logo_url) {
+            const urlParts = company.logo_url.split("/");
+            const fileNameWithExtension = urlParts[urlParts.length - 1];
+            const folderName = urlParts[urlParts.length - 2];
+            const publicId = `${folderName}/${fileNameWithExtension.split(".")[0]}`;
+
+            await cloudinary.uploader.destroy(publicId);
+        }
+
+        // 📤 Subir nuevo logo a Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: "company-logos",
+        });
+
+        // ✅ Actualizar la empresa con el nuevo logo y limpiar historial
+        await company.update({
+            logo_url: result.secure_url,
+            logos_history: [], // Si quieres mantener historial anterior, cambia esto
+        });
+
+        res.json({
+            message: "Logo actualizado correctamente",
+            logo_url: result.secure_url,
+        });
+    } catch (error) {
+        console.error("Error al actualizar el logo:", error);
+        res.status(500).json({ message: "Error interno al actualizar el logo" });
+    }
+};
+

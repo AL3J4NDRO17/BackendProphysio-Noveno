@@ -47,6 +47,10 @@ const wearOsRoutes = require('./wearOsRoutes');
 //Rutas de Horarios
 const horariosRoutes = require('./horariosRoutes');
 
+//Importar las rutas de logs
+const logsRoutes = require('./logsRoutes');
+
+
 //Endpoints de la API protegidos dependiendo de la ruta
 router.use('/auth', authRoutes);
 router.use('/users', authenticateUser, userRoutes);
@@ -57,6 +61,8 @@ router.use('/testimonial', testimonialRoutes, authenticateUser, authorizeRole(['
 router.use('/perfil', perfilRoutes, authenticateUser);
 router.use('/citas', citaRoutes, authenticateUser,authorizeRole(['admin','usuario']),);
 router.use('/horarios', horariosRoutes);
+router.use('/logs', logsRoutes, authenticateUser, authorizeRole(['admin']));
+
 
 router.use('/wearOs',wearOsRoutes);
 

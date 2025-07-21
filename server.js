@@ -16,6 +16,7 @@ const { PORT } = require("./src/config/index");
 
 const app = express();
 
+
 // Middlewares
 app.use(cors(corsOptions));
 app.use(express.json());

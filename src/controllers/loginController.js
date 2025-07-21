@@ -128,7 +128,7 @@ exports.login = async (req, res) => {
 //Funcion para verificar el codigo de inicio de sesion
 exports.verifyLoginCode = async (req, res) => {
   console.log("📥 Código recibido en la solicitud:", req.body);
-
+  
   const { code } = req.body;
   if (!code) {
 
@@ -137,7 +137,7 @@ exports.verifyLoginCode = async (req, res) => {
 
   try {
     const tokenRecord = await verifyOTP(code);
-
+    console.log("📥 Registro de token encontrado:", tokenRecord);
     if (!tokenRecord) {
       console.log("❌ Error: Código OTP inválido o expirado.");
       return res.status(401).json({ message: "El código es inválido o ha expirado." });

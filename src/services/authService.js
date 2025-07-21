@@ -3,11 +3,14 @@ const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const { body } = require('express-validator');
 const crypto = require("crypto");
-const { Token } = require('../config/index');
+
 const { Op } = require('sequelize');
 
+const sequelize = require('../config/database').sequelize;
+const Token = require('../models/Token')(sequelize);
 dotenv.config();
 const { JWT_SECRET } = process.env;
+
 
 exports.generateToken = (user) => {
   
@@ -24,6 +27,17 @@ exports.generateRefreshToken = (user) => {
     { expiresIn: '7d' }  // Usar un tiempo de expiración más largo
   );
 };
+exports.generarFolio = () => {
+  const caracteres = 'ABCD0123456789';
+  let folio = '';
+
+  for (let i = 0; i < 15; i++) {
+    const indice = Math.floor(Math.random() * caracteres.length);
+    folio += caracteres[indice];
+  }
+
+  return folio;
+}
 
 exports.verifyOTP = async (code) => {
   try {

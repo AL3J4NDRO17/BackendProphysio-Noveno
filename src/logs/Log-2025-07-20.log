@@ -1,0 +1,14 @@
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-20 19:48:54"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (1) para el usuario jesus.alexem@gmail.com.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-07-20 21:20:32"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (2) para el usuario jesus.alexem@gmail.com.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-07-20 21:20:40"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-20 21:21:03"}
+{"ip":"127.0.0.1","level":"error","mensaje":"Unexpected field","metodo":"POST","protocolo":"HTTP","ruta":"/api/citas/createCita","timestamp":"2025-07-20 21:34:21","ubicacion":{"archivo":"C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\node_modules\\multer\\index.js","columna":"19","linea":"40"}}
+{"level":"critical","message":"Rechazo no manejado: [object Object]","timestamp":"2025-07-20 21:38:20"}
+{"ip":"127.0.0.1","level":"error","mensaje":"Image file format avif not allowed","metodo":"POST","protocolo":"HTTP","ruta":"/api/citas/createCita","timestamp":"2025-07-20 21:38:20"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (1) para el usuario jesus.alexem@gmail.com.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-07-20 21:57:36"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-20 21:57:53"}
+{"level":"critical","message":"Rechazo no manejado: [object Object]","timestamp":"2025-07-20 22:12:43"}
+{"level":"critical","message":"Rechazo no manejado: [object Object]","timestamp":"2025-07-20 22:13:52"}
+{"level":"critical","message":"Rechazo no manejado: [object Object]","timestamp":"2025-07-20 22:16:33"}
+{"ip":"127.0.0.1","level":"warn","mensaje":"Intento fallido (1) para el usuario jesus.alexem@gmail.com.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/login","timestamp":"2025-07-20 22:31:40"}
+{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-20 22:31:56"}

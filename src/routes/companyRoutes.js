@@ -24,6 +24,10 @@ router.get("/getByIdcompanies/:id", CompanyController.getCompanyById);
 
 router.post("/uploadLogo", upload.single("file"),CompanyController.uploadLogo)
 
+router.post("/setCurrentLogo",CompanyController.setCurrentLogo)
+
+router.post("deleteLogo",CompanyController.deleteLogo)
+
 // ✅ Actualizar una empresa
 router.put("/updateCompanies/:id", CompanyController.updateCompany);
 
@@ -31,34 +35,34 @@ router.put("/updateCompanies/:id", CompanyController.updateCompany);
 router.delete("/deleteCompanies/:id", CompanyController.deleteCompany);
 
 
+
 ///// ──────────────────────────────────────────────── /////
 ///            RUTAS DE REDES SOCIALES                 /////
 /// ──────────────────────────────────────────────── /////
 
-// ✅ Agregar una red social a una empresa
-router.post("/createSocialLink", SocialMediaLinksController.addSocialMediaLink);
-
 // ✅ Obtener todas las redes sociales de una empresa
-router.get("/getAllSocialLink", SocialMediaLinksController.getSocialMediaLinksByCompany);
+router.get("/getAllSocialLink/:id", SocialMediaLinksController.getSocialLinksByCompany);
+
+// ✅ Agregar una red social a una empresa
+router.post("/createSocialLink", SocialMediaLinksController.createSocialLink);
 
 // ✅ Actualizar un enlace de red social
-router.put("/updateSocialLink", SocialMediaLinksController.updateSocialMediaLink);
+router.put("/updateSocialLink/:id", SocialMediaLinksController.updateSocialLink);
 
 // ✅ Eliminar una red social
-router.delete("/deleteSocialLink", SocialMediaLinksController.deleteSocialMediaLink);
+router.delete("/deleteSocialLink/:id", SocialMediaLinksController.deleteSocialLink);
 
 ///// ──────────────────────────────────────────────── /////
 ///              RUTAS DE PREGUNTAS FRECUENTES         /////
 /// ──────────────────────────────────────────────── /////
 
-// ✅ Crear una nueva pregunta frecuente
-router.post("/faqs", FaqController.createFaq);
-
 // ✅ Obtener todas las FAQs de una empresa
-router.get("/faqs/:company_id", FaqController.getFaqsByCompany);
+router.get("/getAllFaqs/:id", FaqController.getFaqsByCompany);
+// ✅ Crear una nueva pregunta frecuente
+router.post("/createFaq", FaqController.createFaq);
 
 // ✅ Obtener una FAQ por su ID
-router.get("/faq/:id", FaqController.getFaqById);
+router.get("/faq/:id", FaqController.getFaqsByCompany);
 
 // ✅ Actualizar una FAQ
 router.put("/faq/:id", FaqController.updateFaq);
@@ -69,12 +73,12 @@ router.delete("/faq/:id", FaqController.deleteFaq);
 ///// ──────────────────────────────────────────────── /////
 ///      RUTAS DE POLÍTICAS Y TÉRMINOS DE SERVICIO     /////
 /// ──────────────────────────────────────────────── /////
-
+// ✅ Obtener las políticas de una empresa
+router.get("/policies/:company_id", PoliciesController.getPolicyByCompany);
 // ✅ Crear o actualizar las políticas de una empresa
 router.post("/policies", PoliciesController.createOrUpdatePolicy);
 
-// ✅ Obtener las políticas de una empresa
-router.get("/policies/:company_id", PoliciesController.getPolicyByCompany);
+router.put("/policies/:company_id", PoliciesController.createOrUpdatePolicy);
 
 // ✅ Eliminar las políticas de una empresa
 router.delete("/policies/:company_id", PoliciesController.deletePolicy);

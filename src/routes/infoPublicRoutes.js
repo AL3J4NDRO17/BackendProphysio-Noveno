@@ -24,7 +24,7 @@ router.get("/companies/:id", CompanyController.getCompanyById);
 router.get("/faqs/:company_id", FaqController.getFaqsByCompany);
 
 // ✅ Obtener una FAQ por su ID
-router.get("/faq/:id", FaqController.getFaqById);
+router.get("/faq/:id", FaqController.getFaqsByCompany);
 
 // ✅ Obtener las políticas y términos de servicio de una empresa
 router.get("/policies/:company_id", PoliciesController.getPolicyByCompany);

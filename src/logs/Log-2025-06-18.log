@@ -1,3 +1,0 @@
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador 20221017@uthh.edu.mx inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-18 12:34:04"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Usuario jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-06-18 12:36:36"}
-{"level":"critical","message":"Rechazo no manejado: Error: getaddrinfo ENOTFOUND smtp.gmail.com","timestamp":"2025-06-18 12:38:28"}

@@ -29,6 +29,14 @@ module.exports = (sequelize) => {
         type: DataTypes.TIME,
         allowNull: false,
       },
+      hora_comida_inicio: {
+        type: DataTypes.TIME,
+        allowNull: true, // Puedes poner false si siempre debe existir
+      },
+      hora_comida_fin: {
+        type: DataTypes.TIME,
+        allowNull: true,
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
