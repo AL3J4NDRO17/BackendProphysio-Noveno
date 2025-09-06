@@ -6,31 +6,6 @@
     "auditLog": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\.ca4c144a9edeaa6e6151936fd04d9396f417aae9-audit.json",
     "files": [
         {
-            "date": 1751784860145,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-06.log",
-            "hash": "5c10ccfe1f8bc09a030f4f858c19453c4138e470cadf735175021229cf2a5d54"
-        },
-        {
-            "date": 1751922799436,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-07.log",
-            "hash": "d3b568febc87a8430c80b54ecaf2b8995156c507221a470f549807f49cc15034"
-        },
-        {
-            "date": 1752012424327,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-08.log",
-            "hash": "e725236a7fc8347e8764b258113578972fed79b1947896a6581ed20e61322385"
-        },
-        {
-            "date": 1752096767932,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-09.log",
-            "hash": "cf38a4aa791680fabbd6aafc337e2ddb9d85416133f85dac523bcb057de7739d"
-        },
-        {
-            "date": 1752127355240,
-            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-10.log",
-            "hash": "a1642159f7add11fe4d14c1b650314dd3214faab4061e52f0cf126b9511569c6"
-        },
-        {
             "date": 1752787555593,
             "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-17.log",
             "hash": "f6b55c4c44acc2faaa3f2c3bd6efa0097276acf20f076684cedb056c3c393eb8"
@@ -49,6 +24,21 @@
             "date": 1752992513833,
             "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-20.log",
             "hash": "48964095b8b0e84ac622d516df7a6d1b60675441da6b86cf6f72db1b8405a34e"
+        },
+        {
+            "date": 1753163549553,
+            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-21.log",
+            "hash": "5edc556e8b0e42c3da39c7ed0593f4c077756d750701bad576861308ec6409b7"
+        },
+        {
+            "date": 1753166045712,
+            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-22.log",
+            "hash": "04197ce21dd442d69874d126f59ffe67848214181f64d5ec66bc0e34a4a25a19"
+        },
+        {
+            "date": 1753368587680,
+            "name": "C:\\Users\\jesus\\Desktop\\PROYECTO 10mo\\Proyecto Prophysio\\backend\\src\\logs\\Log-2025-07-24.log",
+            "hash": "9aaee4b2cbe037632462517bacd762cde0edb983a6875658346493831e235c86"
         }
     ],
     "hashType": "sha256"

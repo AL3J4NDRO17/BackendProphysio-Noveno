@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { sequelize } = require("./database");
+const { Sequelize } = require("sequelize");
 
 // Importa modelos
 const UserModel = require("../models/User");
@@ -35,7 +36,7 @@ const models = {
   PreguntaSecreta: PreguntaSecretaModel(sequelize),
   Like: LikeModel(sequelize),
   HorarioClinica: HorarioClinicaModel(sequelize),
-  RadiografiaUsuario : RadiografiaUsuarioModel(sequelize)
+  RadiografiaUsuario: RadiografiaUsuarioModel(sequelize)
 };
 
 // Aplica asociaciones
@@ -48,7 +49,19 @@ Object.keys(models).forEach((modelName) => {
 const syncDatabase = async () => {
   try {
     console.log("Iniciando la sincronización de la base de datos...")
-
+    const Migrate = new Sequelize(
+      "postgresql://prophysiobd_user:YYx7WsNZHSMRpnHGEKSOjNi6JqP5WdZB@dpg-d1viuper433s73fni5j0-a.oregon-postgres.render.com/prophysiobd",
+      {
+        dialect: "postgres",
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        },
+      }
+    );
+    await Migrate.sync({ alter: true }); // o sin force si no quieres borrar datos
     // Orden de sincronización basado en dependencias de claves foráneas
     const modelOrder = [
       "Company",
@@ -65,7 +78,7 @@ const syncDatabase = async () => {
       "Blog",
       "Like",
       "Cita",
-      "Testimonial",   
+      "Testimonial",
       "RadiografiaUsuario"
     ]
 

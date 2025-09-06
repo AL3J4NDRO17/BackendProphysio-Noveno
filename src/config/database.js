@@ -17,6 +17,12 @@ const sequelize = new Sequelize(
       acquire: 30000, // Tiempo máximo para obtener conexión (ms)
       idle: 10000, // Tiempo de inactividad antes de liberar conexión (ms)
     },
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // importante para Render
+      },
+    },
   }
 );
 

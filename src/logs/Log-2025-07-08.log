@@ -1,2 +1,0 @@
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-08 16:12:52"}
-{"ip":"127.0.0.1","level":"info","mensaje":"Administrador jesus.alexem@gmail.com inició sesión exitosamente.","metodo":"POST","protocolo":"HTTP","ruta":"/api/auth/verifyLogin","timestamp":"2025-07-08 16:56:10"}
