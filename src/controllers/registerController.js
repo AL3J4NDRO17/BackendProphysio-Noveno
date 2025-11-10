@@ -54,7 +54,15 @@ const { JWT_SECRET, APP_URL } = process.env;
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const hashedAnswer = await bcrypt.hash(respuestaSecreta, saltRounds);
-        
+         // Crear usuario
+        const nuevoUsuario = await User.create({
+          nombre,
+          email,
+          password: hashedPassword,
+          id_pregunta: preguntaSecreta,
+          respuesta_secreta: hashedAnswer,
+          activo: false,
+        });
 
         // Generar token de activación
         const token = jwt.sign(
@@ -74,15 +82,7 @@ const { JWT_SECRET, APP_URL } = process.env;
         // Enviar correo de activación
         const activationLink = `${APP_URL}/activate?token=${token}`;
         await sendActivationEmail(email, nombre, activationLink);
-        // Crear usuario
-        const nuevoUsuario = await User.create({
-          nombre,
-          email,
-          password: hashedPassword,
-          id_pregunta: preguntaSecreta,
-          respuesta_secreta: hashedAnswer,
-          activo: false,
-        });
+
         res.status(201).json({
           message: "Usuario registrado con éxito. Por favor, verifica tu correo electrónico para activar tu cuenta.",
         });
