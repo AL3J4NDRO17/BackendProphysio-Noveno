@@ -1,3 +1,5 @@
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const {
@@ -10,18 +12,29 @@ const {
 dotenv.config();
 
 // 🔥 Configuración de nodemailer
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+// const transporter = nodemailer.createTransport({
+//   host: process.env.EMAIL_HOST || "smtp.gmail.com",
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
+//   },
+//   tls: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
+const transporter = {
+  sendMail: async ({ to, subject, html }) => {
+    await resend.emails.send({
+      from: "ProPhysio <onboarding@resend.dev>",
+      to,
+      subject,
+      html,
+    });
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+};
 
 // 🔥 Función para enviar email con una plantilla específica
 const sendEmail = async (email, subject, template, replacements) => {
@@ -40,7 +53,6 @@ const sendEmail = async (email, subject, template, replacements) => {
     });
     
     await transporter.sendMail({
-      from: `"ProPhysio" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: subject,
       html: htmlContent,
